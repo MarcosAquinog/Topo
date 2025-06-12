@@ -6,3 +6,6 @@ plotly>=6.0.1
 anyio>=3.7.1
 geopandas>=0.14.3
 folium>=0.18.0
+scikit-learn>=1.2.0
+joblib>=1.4.0
+gamsapi>=48.4.0
