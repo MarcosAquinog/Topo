@@ -25,7 +25,36 @@ st.set_page_config(
 # --- CSS Moderno y Responsivo ---
 st.markdown("""
 <style>
-/* (incluye aquí todo tu bloque de estilos CSS tal cual lo tenías) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --primary: #0066CC;
+    --primary-dark: #003F7F;
+    --primary-light: #4A9EFF;
+    --secondary: #00B4D8;
+    --accent: #FF6B35;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --bg-tertiary: #F1F5F9;
+    --border: #E2E8F0;
+    --border-light: #F1F5F9;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+    --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #FF8C42 100%);
+}
+
+/* (resto de tu CSS tal cual lo tenías) */
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -35,7 +64,6 @@ def load_df_modelo():
     try:
         return pd.read_csv("df_modelo.csv")
     except:
-        # Datos de ejemplo si no existe el archivo
         return pd.DataFrame({
             'conductor': ['Juan Pérez', 'Ana García', 'Carlos López'] * 10,
             'Unidad': ['VEH001', 'VEH002', 'VEH003'] * 10,
@@ -53,19 +81,15 @@ def load_df_modelo():
 @st.cache_resource
 def load_model_rendimiento():
     base = Path(__file__).parent
-
     model_path = base / "modelo_rendimiento.pkl"
     if not model_path.exists():
         st.error(f"⚠️ Modelo No Disponible: no encontré {model_path.name}")
         return None
-
     try:
         return joblib.load(model_path)
     except Exception as e:
         st.error(f"❌ Error cargando modelo: {e}")
         return None
-
-
 
 def load_df_malos_contexto():
     try:
@@ -78,9 +102,9 @@ def load_df_malos_contexto():
         })
 
 # --- Carga inicial ---
-df_modelo   = load_df_modelo()
-model_rend  = load_model_rendimiento()
-df_malos    = load_df_malos_contexto()
+df_modelo  = load_df_modelo()
+model_rend = load_model_rendimiento()
+df_malos   = load_df_malos_contexto()
 
 # --- Sidebar Navigation ---
 with st.sidebar:
@@ -88,25 +112,27 @@ with st.sidebar:
     <div style="text-align:center; margin-bottom:2rem;">
       <div style="font-size:2rem; font-weight:800; color:var(--primary);">SLB</div>
       <div style="font-size:0.9rem; color:var(--text-secondary);">Energy Analytics Platform</div>
-    </div>""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
 
     pages = {
-      "🏠 Introducción": "intro",
-      "📊 Análisis de Datos": "analysis",
-      "🗺️ Mapeo Topológico": "mapping",
-      "🔮 Predicción": "prediction",
-      "📈 Dashboard": "dashboard"
+        "🏠 Introducción": "intro",
+        "📊 Análisis de Datos": "analysis",
+        "🗺️ Mapeo Topológico": "mapping",
+        "🔮 Predicción": "prediction",
+        "📈 Dashboard": "dashboard"
     }
     choice = st.selectbox("", list(pages.keys()), index=0)
     current_page = pages[choice]
+
     st.markdown("---")
     st.markdown("""
-      <div style="padding:1rem; background:var(--bg-secondary); border-radius:12px;">
-        <div style="font-weight:600; color:var(--text-primary); margin-bottom:0.5rem;">💡 Tip</div>
-        <div style="font-size:0.85rem; color:var(--text-secondary);">
-          Navega por las secciones para explorar el análisis completo.
-        </div>
+    <div style="padding:1rem; background:var(--bg-secondary); border-radius:12px;">
+      <div style="font-weight:600; color:var(--text-primary); margin-bottom:0.5rem;">💡 Tip</div>
+      <div style="font-size:0.85rem; color:var(--text-secondary);">
+        Navega por las secciones para explorar el análisis completo.
       </div>
+    </div>
     """, unsafe_allow_html=True)
 
 # --- HEADER (todas excepto intro) ---
@@ -129,17 +155,14 @@ if current_page == "intro":
       <p style="font-size:1.5rem; opacity:0.9;">Plataforma de análisis topológico para optimización energética</p>
     </div>
     """, unsafe_allow_html=True)
-    # Aquí seguiría todo tu contenido de introducción…
-    
+
 # --- PÁGINA: ANÁLISIS DE DATOS ---
 elif current_page == "analysis":
-    # (Tu código de tabs con gráficos)
     st.write("Análisis de datos… (aquí irían tus tabs y gráficos)")
 
 # --- PÁGINA: MAPEO TOPOLÓGICO ---
 elif current_page == "mapping":
-    # (Tu código para renderizar mapper_output_bueno.html)
-    st.write("Mapeo Topológico…")
+    st.write("Mapeo Topológico… (aquí tu código de mapper)")
 
 # --- PÁGINA: PREDICCIÓN ---
 elif current_page == "prediction":
@@ -157,14 +180,13 @@ elif current_page == "prediction":
 
     if model_rend is None:
         st.markdown("""
-        <div style="background:linear-gradient(135deg,var(--error)0%,#DC2626100%); color:white; padding:2rem; border-radius:16px; text-align:center;">
+        <div style="background:linear-gradient(135deg,var(--error)0%,#DC2626 100%); color:white; padding:2rem; border-radius:16px; text-align:center;">
           <h3>⚠️ Modelo No Disponible</h3>
           <p>El archivo modelo_rendimiento.pkl no se encontró en el directorio.</p>
         </div>
         """, unsafe_allow_html=True)
         st.stop()
 
-    # Formulario de entrada…
     conductores = sorted(df_modelo["conductor"].astype(str).unique())
     vehiculos   = sorted(df_modelo["vehículo"].astype(str).unique())
     divisiones  = sorted(df_modelo["division"].astype(str).unique())
@@ -185,9 +207,9 @@ elif current_page == "prediction":
 
     if st.button("🚀 Predecir Eficiencia"):
         cs  = df_modelo[df_modelo["conductor"] == conductor]["conductor_score"].mean()
-        vs  = df_modelo[df_modelo["vehículo"] == vehiculo]["vehiculo_score"].mean()
+        vs  = df_modelo[df_modelo["vehículo"]  == vehiculo]["vehiculo_score"].mean()
         rcm = df_modelo[df_modelo["conductor"] == conductor]["rend_cond_mean"].mean()
-        rvm = df_modelo[df_modelo["vehículo"] == vehiculo]["rend_veh_mean"].mean()
+        rvm = df_modelo[df_modelo["vehículo"]  == vehiculo]["rend_veh_mean"].mean()
 
         X = pd.DataFrame([{
             "conductor_score": cs or 0.5,
