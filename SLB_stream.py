@@ -1173,7 +1173,7 @@ elif current_page == "prediction":
                 <div style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
                     <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
                         <strong style="color: var(--text-primary);">Precisión:</strong> 89%<br>
-                        <strong style="color: var(--text-primary);">Algoritmo:</strong> Random Forest + TDA<br>
+                        <strong style="color: var(--text-primary);">Algoritmo:</strong> resRandom Fot + TDA<br>
                         <strong style="color: var(--text-primary);">Features:</strong> 8 variables
                     </div>
                     <div style="margin-bottom: 1rem;">
