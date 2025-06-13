@@ -52,9 +52,7 @@ def load_df_modelo():
 
 @st.cache_resource
 def load_model_rendimiento():
-    # Depuración: muestra el working directory y archivos presentes
-    cwd = os.getcwd()
-    st.write("🛠️ Working directory:", cwd)
+    # Depuración: carpeta de script y ficheros
     base = Path(__file__).parent
     st.write("🗂️ Files in script folder:", os.listdir(base))
 
@@ -62,7 +60,14 @@ def load_model_rendimiento():
     if not model_path.exists():
         st.error(f"⚠️ Modelo No Disponible: no encontré {model_path.name}")
         return None
-    return joblib.load(model_path)
+
+    try:
+        return joblib.load(model_path)
+    except Exception as e:
+        # Capturamos el error concreto de pickle
+        st.error(f"❌ Error cargando modelo: {e}")
+        return None
+
 
 def load_df_malos_contexto():
     try:
